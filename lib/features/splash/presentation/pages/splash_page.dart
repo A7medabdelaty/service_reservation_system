@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _checkAuthAndNavigate() async {
-    await Future.delayed(const Duration(seconds: 2)); // Splash duration
+    await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;
 
@@ -40,7 +40,6 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Add your logo here
             const FlutterLogo(size: 100),
             const SizedBox(height: 24),
             const CircularProgressIndicator(),
