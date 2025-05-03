@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:service_reservation_system/features/auth/presentation/pages/reset_password_page.dart';
 
-import '../features/splash/presentation/pages/splash_page.dart';
 import '../core/presentation/pages/error_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
@@ -8,6 +8,7 @@ import '../features/booking/presentation/pages/booking_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/specialists/presentation/pages/specialist_detail_page.dart';
 import '../features/specialists/presentation/pages/specialists_page.dart';
+import '../features/splash/presentation/pages/splash_page.dart';
 import 'route_constants.dart';
 
 class AppRouter {
@@ -21,7 +22,7 @@ class AppRouter {
         page = const SplashPage();
         useSlideTransition = false; // Use fade for splash
         break;
-        
+
       case RouteConstants.home:
         page = const HomePage();
         break;
@@ -34,6 +35,10 @@ class AppRouter {
       case RouteConstants.register:
         page = const RegisterPage();
         useSlideTransition = false;
+        break;
+
+      case RouteConstants.resetPassword:
+        page = const ResetPasswordPage();
         break;
 
       case RouteConstants.specialists:

@@ -18,14 +18,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignInWithEmailEvent>(_onSignInWithEmail);
     on<AuthSignUpWithEmailEvent>(_onSignUpWithEmail);
     on<AuthSignOutEvent>(_onSignOut);
+    on<AuthErrorEvent>(_onAuthError); // Add error event handler
 
-    _authStateSubscription = _authRepository.authStateChanges.listen((user) {
-      if (user != null) {
-        emit(AuthAuthenticated(user));
-      } else {
-        emit(AuthUnauthenticated());
-      }
-    });
+    _setupAuthStateSubscription();
+  }
+
+  Future<void> _onAuthError(
+    AuthErrorEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthFailure(event.message));
+  }
+
+  void _setupAuthStateSubscription() {
+    _authStateSubscription = _authRepository.authStateChanges.listen(
+      (user) {
+        if (user != null) {
+          add(AuthCheckStatusEvent());
+        } else {
+          add(AuthCheckStatusEvent()); // Also handle null user case
+        }
+      },
+      onError: (error) {
+        add(AuthErrorEvent(error.toString())); // Add error handling
+      },
+    );
   }
 
   Future<void> _onAuthCheckStatus(
@@ -49,6 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.email,
       event.password,
     );
+
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
       (userCredential) => emit(AuthAuthenticated(userCredential.user!)),
@@ -64,6 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.email,
       event.password,
     );
+
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
       (userCredential) => emit(AuthAuthenticated(userCredential.user!)),
@@ -76,6 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(AuthLoading());
     final result = await _authRepository.signOut();
+
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
       (_) => emit(AuthUnauthenticated()),

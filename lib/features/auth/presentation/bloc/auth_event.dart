@@ -17,3 +17,9 @@ class AuthSignUpWithEmailEvent extends AuthEvent {
 class AuthSignOutEvent extends AuthEvent {}
 
 class AuthCheckStatusEvent extends AuthEvent {}
+
+class AuthErrorEvent extends AuthEvent {
+  final String message;
+
+  AuthErrorEvent(this.message);
+}

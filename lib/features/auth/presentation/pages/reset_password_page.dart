@@ -7,33 +7,29 @@ import 'package:service_reservation_system/features/auth/presentation/widgets/au
 
 import '../../../../routes/route_constants.dart';
 import '../bloc/auth_bloc.dart';
-import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../mixins/fade_animation_mixin.dart';
 import '../widgets/auth_text_field.dart';
 
-class LoginPage extends BaseAuthPage {
-  const LoginPage({super.key});
+class ResetPasswordPage extends BaseAuthPage {
+  const ResetPasswordPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _LoginPageState extends BaseAuthPageState<LoginPage>
+class _ResetPasswordPageState extends BaseAuthPageState<ResetPasswordPage>
     with FadeAnimationMixin {
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _stayLoggedIn = false;
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
   @override
-  String get title => 'Login';
+  String get title => 'Reset Password';
 
   @override
   Widget buildForm(BuildContext context) {
@@ -41,7 +37,6 @@ class _LoginPageState extends BaseAuthPageState<LoginPage>
       builder: (context, state) {
         return AuthPageContainer(
           title: title,
-          showAppBar: false,
           child: AuthForm(
             formKey: formKey,
             animation: fadeAnimation,
@@ -59,59 +54,24 @@ class _LoginPageState extends BaseAuthPageState<LoginPage>
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
-              AuthTextField(
-                controller: _passwordController,
-                label: 'Password',
-                isPassword: true,
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _stayLoggedIn,
-                    onChanged: (value) {
-                      setState(() => _stayLoggedIn = value ?? false);
-                    },
-                  ),
-                  const Text('Stay logged in'),
-                  const Spacer(),
-                  TextButton(
-                    onPressed:
-                        () => Navigator.pushNamed(
-                          context,
-                          RouteConstants.resetPassword,
-                        ),
-                    child: const Text('Forgot Password?'),
-                  ),
-                ],
-              ),
               const SizedBox(height: 24),
               AuthSubmitButton(
-                state: state, // Now state is properly defined from BlocBuilder
-                label: 'Login',
+                state: state,
+                label: 'Reset Password',
                 onPressed: () {
                   if (formKey.currentState?.validate() ?? false) {
-                    context.read<AuthBloc>().add(
-                      AuthSignInWithEmailEvent(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                      ),
-                    );
+                    // TODO:: Add your reset password logic here
                   }
                 },
               ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed:
-                    () => Navigator.pushNamed(context, RouteConstants.register),
-                child: const Text('Don\'t have an account? Register'),
+                    () => Navigator.pushReplacementNamed(
+                      context,
+                      RouteConstants.login,
+                    ),
+                child: const Text('Back to Login'),
               ),
             ],
           ),
@@ -122,6 +82,6 @@ class _LoginPageState extends BaseAuthPageState<LoginPage>
 
   @override
   void onAuthenticationSuccess(BuildContext context) {
-    Navigator.pushReplacementNamed(context, RouteConstants.home);
+    Navigator.pushReplacementNamed(context, RouteConstants.login);
   }
 }
