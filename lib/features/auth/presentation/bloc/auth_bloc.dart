@@ -18,29 +18,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignInWithEmailEvent>(_onSignInWithEmail);
     on<AuthSignUpWithEmailEvent>(_onSignUpWithEmail);
     on<AuthSignOutEvent>(_onSignOut);
-    on<AuthErrorEvent>(_onAuthError); // Add error event handler
+    on<AuthErrorEvent>(_onAuthError);
 
     _setupAuthStateSubscription();
   }
 
-  Future<void> _onAuthError(
-    AuthErrorEvent event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(AuthFailure(event.message));
-  }
-
   void _setupAuthStateSubscription() {
     _authStateSubscription = _authRepository.authStateChanges.listen(
-      (user) {
-        if (user != null) {
-          add(AuthCheckStatusEvent());
+      (user) async {
+        if (user == null) {
+          emit(AuthUnauthenticated());
         } else {
-          add(AuthCheckStatusEvent()); // Also handle null user case
+          try {
+            await user.reload();
+            emit(AuthAuthenticated(user));
+          } catch (e) {
+            emit(AuthUnauthenticated());
+            add(AuthSignOutEvent());
+          }
         }
       },
       onError: (error) {
-        add(AuthErrorEvent(error.toString())); // Add error handling
+        add(AuthErrorEvent(error.toString()));
       },
     );
   }
@@ -49,12 +48,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthCheckStatusEvent event,
     Emitter<AuthState> emit,
   ) async {
-    final user = _authRepository.currentUser;
-    if (user != null) {
-      emit(AuthAuthenticated(user));
-    } else {
+    try {
+      final user = _authRepository.currentUser;
+      if (user != null) {
+        try {
+          await user.reload();
+          emit(AuthAuthenticated(user));
+        } catch (e) {
+          emit(AuthUnauthenticated());
+        }
+      } else {
+        emit(AuthUnauthenticated());
+      }
+    } catch (e) {
       emit(AuthUnauthenticated());
     }
+  }
+
+  Future<void> _onAuthError(
+    AuthErrorEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthFailure(event.message));
   }
 
   Future<void> _onSignInWithEmail(

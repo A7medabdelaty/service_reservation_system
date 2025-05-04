@@ -20,7 +20,12 @@ class FirestoreHelper {
     try {
       await _firestore.collection('users').doc(user.id).set(user.toMap());
     } catch (e) {
-      throw ServerFailure(e.toString());
+      if (e is FirebaseException) {
+        throw ServerFailure('Firestore error (${e.code}): ${e.message}');
+      }
+      throw ServerFailure(
+        'Failed to create user in Firestore: ${e.toString()}',
+      );
     }
   }
 

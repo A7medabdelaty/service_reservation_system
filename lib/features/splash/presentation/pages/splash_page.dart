@@ -18,11 +18,15 @@ class _SplashPageState extends State<SplashPage>
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
-  bool _animationCompleted = false;
 
   @override
   void initState() {
     super.initState();
+    _setupAnimations();
+    _checkAuthStatus();
+  }
+
+  void _setupAnimations() {
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -42,17 +46,29 @@ class _SplashPageState extends State<SplashPage>
       ),
     );
 
-    // Trigger auth check immediately
-    context.read<AuthBloc>().add(AuthCheckStatusEvent());
+    _controller.forward();
+  }
 
-    // Start animation
-    _controller.forward().then((_) {
+  void _checkAuthStatus() {
+    // Delay auth check slightly to allow animations to start
+    Future.delayed(const Duration(milliseconds: 100), () {
       if (mounted) {
-        setState(() {
-          _animationCompleted = true;
-        });
+        context.read<AuthBloc>().add(AuthCheckStatusEvent());
       }
     });
+  }
+
+  void _handleNavigation(BuildContext context, String route) {
+    // Wait for animation to complete before navigating
+    if (!_controller.isCompleted) {
+      _controller.forward().then((_) {
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, route);
+        }
+      });
+    } else {
+      Navigator.pushReplacementNamed(context, route);
+    }
   }
 
   @override
@@ -67,26 +83,9 @@ class _SplashPageState extends State<SplashPage>
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
-            // Wait for animation if not completed, then navigate
-            if (!_animationCompleted) {
-              _controller.forward().then((_) {
-                if (mounted) {
-                  Navigator.pushReplacementNamed(context, RouteConstants.home);
-                }
-              });
-            } else {
-              Navigator.pushReplacementNamed(context, RouteConstants.home);
-            }
+            _handleNavigation(context, RouteConstants.home);
           } else if (state is AuthUnauthenticated) {
-            if (!_animationCompleted) {
-              _controller.forward().then((_) {
-                if (mounted) {
-                  Navigator.pushReplacementNamed(context, RouteConstants.login);
-                }
-              });
-            } else {
-              Navigator.pushReplacementNamed(context, RouteConstants.login);
-            }
+            _handleNavigation(context, RouteConstants.login);
           }
         },
         child: Center(

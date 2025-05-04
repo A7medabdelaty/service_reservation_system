@@ -24,9 +24,24 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       final result = await _authHelper.signUpWithEmail(email, password);
-      await _createUserInFirestore(result.user!.uid, name, email, phone);
-      return Right(result);
+
+      if (result.user == null) {
+        return Left(ServerFailure('Authentication failed: null user returned'));
+      }
+
+      try {
+        await _createUserInFirestore(result.user!.uid, name, email, phone);
+        return Right(result);
+      } catch (e) {
+        await result.user!.delete();
+        return Left(
+          ServerFailure('Failed to create user profile: ${e.toString()}'),
+        );
+      }
     } catch (e) {
+      if (e is FirebaseAuthException) {
+        return Left(ServerFailure(e.message ?? 'Authentication failed'));
+      }
       return Left(ServerFailure(e.toString()));
     }
   }

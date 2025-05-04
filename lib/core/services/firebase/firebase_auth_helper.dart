@@ -34,12 +34,15 @@ class FirebaseAuthHelper {
   // Sign up with email and password
   Future<UserCredential> signUpWithEmail(String email, String password) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } catch (e) {
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
+    } catch (e) {
+      throw Exception('Failed to create account: $e');
     }
   }
 
