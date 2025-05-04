@@ -11,6 +11,8 @@ abstract class AuthRepository {
   Future<Either<Failure, UserCredential>> signUpWithEmail(
     String email,
     String password,
+    String name,
+    String phone,
   );
   Future<Either<Failure, void>> signOut();
   Stream<User?> get authStateChanges;

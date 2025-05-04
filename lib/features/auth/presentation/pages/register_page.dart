@@ -20,7 +20,8 @@ class RegisterPage extends BaseAuthPage {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends BaseAuthPageState<RegisterPage> with FadeAnimationMixin {
+class _RegisterPageState extends BaseAuthPageState<RegisterPage>
+    with FadeAnimationMixin {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
@@ -97,7 +98,7 @@ class _RegisterPageState extends BaseAuthPageState<RegisterPage> with FadeAnimat
               ),
               const SizedBox(height: 24),
               AuthSubmitButton(
-                state: state,  // Now state is properly defined from BlocBuilder
+                state: state,
                 label: 'Register',
                 onPressed: () {
                   if (formKey.currentState?.validate() ?? false) {
@@ -105,6 +106,8 @@ class _RegisterPageState extends BaseAuthPageState<RegisterPage> with FadeAnimat
                       AuthSignUpWithEmailEvent(
                         email: _emailController.text,
                         password: _passwordController.text,
+                        name: _nameController.text,
+                        phone: _phoneController.text,
                       ),
                     );
                   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:service_reservation_system/features/auth/presentation/pages/base_auth_page.dart';
@@ -60,7 +61,20 @@ class _ResetPasswordPageState extends BaseAuthPageState<ResetPasswordPage>
                 label: 'Reset Password',
                 onPressed: () {
                   if (formKey.currentState?.validate() ?? false) {
-                    // TODO:: Add your reset password logic here
+                    FirebaseAuth.instance.sendPasswordResetEmail(
+                      email: _emailController.text.trim(),
+                    ).then((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Password reset email sent'),
+                        ),
+                      );
+                      Navigator.pushReplacementNamed(context, RouteConstants.login);
+                    }).catchError((error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(error.toString())),
+                      );
+                    });
                   }
                 },
               ),

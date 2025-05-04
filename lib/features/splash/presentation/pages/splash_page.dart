@@ -78,7 +78,6 @@ class _SplashPageState extends State<SplashPage>
               Navigator.pushReplacementNamed(context, RouteConstants.home);
             }
           } else if (state is AuthUnauthenticated) {
-            // Wait for animation if not completed, then navigate
             if (!_animationCompleted) {
               _controller.forward().then((_) {
                 if (mounted) {

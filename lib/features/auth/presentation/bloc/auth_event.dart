@@ -10,8 +10,15 @@ class AuthSignInWithEmailEvent extends AuthEvent {
 class AuthSignUpWithEmailEvent extends AuthEvent {
   final String email;
   final String password;
+  final String name;
+  final String phone;
 
-  AuthSignUpWithEmailEvent({required this.email, required this.password});
+  AuthSignUpWithEmailEvent({
+    required this.email,
+    required this.password,
+    required this.name,
+    required this.phone,
+  });
 }
 
 class AuthSignOutEvent extends AuthEvent {}
