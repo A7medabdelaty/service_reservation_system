@@ -4,7 +4,6 @@ import 'package:service_reservation_system/features/auth/presentation/pages/rese
 import '../core/presentation/pages/error_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
-import '../features/booking/presentation/pages/booking_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/specialists/presentation/pages/specialist_detail_page.dart';
 import '../features/specialists/presentation/pages/specialists_page.dart';
@@ -50,18 +49,6 @@ class AppRouter {
           throw ArgumentError('Specialist detail requires an ID parameter');
         }
         page = SpecialistDetailPage(specialistId: args['id'] as String);
-        break;
-
-      case RouteConstants.booking:
-        if (args is! Map<String, dynamic>) {
-          throw ArgumentError(
-            'Booking requires specialist and time parameters',
-          );
-        }
-        page = BookingPage(
-          specialistId: args['specialistId'] as String,
-          dateTime: args['dateTime'] as DateTime,
-        );
         break;
 
       default:

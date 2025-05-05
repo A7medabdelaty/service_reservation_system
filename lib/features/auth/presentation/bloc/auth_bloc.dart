@@ -25,17 +25,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _setupAuthStateSubscription() {
     _authStateSubscription = _authRepository.authStateChanges.listen(
-      (user) async {
+      (user) {
         if (user == null) {
-          emit(AuthUnauthenticated());
+          add(AuthCheckStatusEvent());
         } else {
-          try {
-            await user.reload();
-            emit(AuthAuthenticated(user));
-          } catch (e) {
-            emit(AuthUnauthenticated());
+          user.reload().then((_) {
+            add(AuthCheckStatusEvent());
+          }).catchError((_) {
             add(AuthSignOutEvent());
-          }
+          });
         }
       },
       onError: (error) {
