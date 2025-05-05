@@ -5,6 +5,7 @@ import '../widgets/doctors_list.dart';
 import '../widgets/home_banner.dart';
 import '../widgets/home_bottom_nav.dart';
 import '../widgets/home_header.dart';
+import '../widgets/home_search_bar.dart';
 import '../widgets/top_specialties.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,7 +30,14 @@ class _HomeMobileView extends StatelessWidget {
     return const SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [HomeHeader(), HomeBanner(), TopSpecialties(), DoctorsList()],
+        children: [
+          HomeHeader(),
+          HomeSearchBar(),
+          SizedBox(height: 8),
+          HomeBanner(),
+          TopSpecialties(),
+          DoctorsList(),
+        ],
       ),
     );
   }
@@ -43,6 +51,8 @@ class _HomeTabletView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HomeHeader(),
+          const HomeSearchBar(),
+          const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
@@ -73,6 +83,8 @@ class _HomeDesktopView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HomeHeader(),
+          const HomeSearchBar(),
+          const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:service_reservation_system/core/constants/asset_paths.dart';
+import 'package:service_reservation_system/core/widgets/app_image.dart';
+import 'package:service_reservation_system/core/widgets/section_header.dart';
 
 class DoctorsList extends StatelessWidget {
   const DoctorsList({super.key});
@@ -7,25 +10,14 @@ class DoctorsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildSectionHeader('Top Doctors'),
+        SectionHeader(
+          title: 'Top Doctors',
+          onViewAllTap: () {
+            // Handle view all tap
+          },
+        ),
         ...List.generate(3, (index) => const DoctorCard()),
       ],
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const Text('View All', style: TextStyle(color: Colors.blue)),
-        ],
-      ),
     );
   }
 }
@@ -40,8 +32,13 @@ class DoctorCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/doctor.png'),
           radius: 30,
+          child: AppImage(
+            path: AssetPaths.doctorPlaceholder,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
         ),
         title: const Text('Dr. Denies Martine\nMBBS, MD\nCardiologist'),
         subtitle: const Text('10+ years experience\nApollo Hospital, Delhi'),

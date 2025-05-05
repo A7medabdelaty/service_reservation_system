@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:service_reservation_system/core/constants/asset_paths.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -11,10 +12,10 @@ class HomeHeader extends StatelessWidget {
         child: Row(
           spacing: 16,
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 20,
               backgroundColor: Colors.blue,
-              child: Icon(Icons.person, color: Colors.white),
+              backgroundImage: AssetImage(AssetPaths.userImagePlaceholder),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

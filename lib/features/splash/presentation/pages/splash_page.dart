@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:service_reservation_system/core/constants/asset_paths.dart';
+import 'package:service_reservation_system/core/extensions/build_context_extension.dart';
+import 'package:service_reservation_system/core/widgets/app_image.dart';
 import 'package:service_reservation_system/features/auth/presentation/bloc/auth_event.dart';
 
 import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -99,18 +102,18 @@ class _SplashPageState extends State<SplashPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
+                      const AppImage(
+                        path: AssetPaths.logo,
                         width: 100,
                         height: 100,
                       ),
                       const SizedBox(height: 24),
                       const CircularProgressIndicator(),
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         'Service Reservation',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: context.sp(24),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
