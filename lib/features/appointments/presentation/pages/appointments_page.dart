@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:service_reservation_system/features/appointments/presentation/widgets/appointment_list.dart';
 import 'package:service_reservation_system/features/appointments/presentation/widgets/appointments_tab_bar.dart';
-import 'package:service_reservation_system/features/appointments/presentation/widgets/empty_appointments.dart';
 
 class MyAppointmentsPage extends StatelessWidget {
   const MyAppointmentsPage({super.key});
@@ -16,7 +15,10 @@ class MyAppointmentsPage extends StatelessWidget {
           bottom: const AppointmentsTabBar(),
         ),
         body: const TabBarView(
-          children: [AppointmentList(), EmptyAppointments()],
+          children: [
+            AppointmentList(isActive: true),
+            AppointmentList(isActive: false),
+          ],
         ),
       ),
     );

@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:service_reservation_system/core/widgets/responsive_layout.dart';
+import 'package:service_reservation_system/features/home/presentation/widgets/doctors_list.dart';
+import 'package:service_reservation_system/features/home/presentation/widgets/home_banner.dart';
+import 'package:service_reservation_system/features/home/presentation/widgets/home_header.dart';
+import 'package:service_reservation_system/features/home/presentation/widgets/home_search_bar.dart';
+import 'package:service_reservation_system/features/home/presentation/widgets/top_specialties.dart';
 
-import '../../../../core/widgets/responsive_layout.dart';
-import '../widgets/doctors_list.dart';
-import '../widgets/home_banner.dart';
+import '../../../../features/appointments/presentation/pages/appointments_page.dart';
+import '../controllers/navigation_controller.dart';
 import '../widgets/home_bottom_nav.dart';
-import '../widgets/home_header.dart';
-import '../widgets/home_search_bar.dart';
-import '../widgets/top_specialties.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ResponsiveLayout(
-        mobile: _HomeMobileView(),
-        tablet: _HomeTabletView(),
-        desktop: _HomeDesktopView(),
+    return ChangeNotifierProvider(
+      create: (_) => NavigationController(),
+      child: Consumer<NavigationController>(
+        builder: (context, controller, _) {
+          return Scaffold(
+            body: IndexedStack(
+              index: controller.currentIndex,
+              children: [
+                ResponsiveLayout(
+                  mobile: _HomeMobileView(),
+                  tablet: _HomeTabletView(),
+                  desktop: _HomeDesktopView(),
+                ),
+                const MyAppointmentsPage(),
+                const Center(child: Text('Favorites Page')), // Placeholder
+                const Center(child: Text('Profile Page')), // Placeholder
+              ],
+            ),
+            bottomNavigationBar: const HomeBottomNav(),
+          );
+        },
       ),
-      bottomNavigationBar: const HomeBottomNav(),
     );
   }
 }

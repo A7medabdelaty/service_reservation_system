@@ -7,10 +7,10 @@ class AppointmentsTabBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return const TabBar(
-      labelColor: Colors.white,
-      unselectedLabelColor: Colors.white70,
-      indicatorColor: Colors.white,
       tabs: [Tab(text: 'Actives'), Tab(text: 'Previews')],
+      labelColor: Colors.blue,
+      unselectedLabelColor: Colors.grey,
+      indicatorColor: Colors.blue,
     );
   }
 
