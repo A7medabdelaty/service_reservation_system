@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:service_reservation_system/core/constants/asset_paths.dart';
 import 'package:service_reservation_system/core/widgets/app_image.dart';
 import 'package:service_reservation_system/core/widgets/section_header.dart';
+import 'package:service_reservation_system/features/doctors/presentation/pages/doctor_details_page.dart';
 
 class DoctorsList extends StatelessWidget {
   const DoctorsList({super.key});
@@ -48,6 +49,12 @@ class DoctorCard extends StatelessWidget {
             Text('₹500'),
           ],
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DoctorDetailsPage()),
+          );
+        },
       ),
     );
   }
