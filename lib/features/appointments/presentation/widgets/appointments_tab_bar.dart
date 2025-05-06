@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:service_reservation_system/core/theme/app_colors.dart';
 
 class AppointmentsTabBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -6,11 +7,13 @@ class AppointmentsTabBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return const TabBar(
-      tabs: [Tab(text: 'Actives'), Tab(text: 'Previews')],
-      labelColor: Colors.blue,
-      unselectedLabelColor: Colors.grey,
-      indicatorColor: Colors.blue,
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: TabBar(
+        tabs: [Tab(text: 'Actives'), Tab(text: 'Previews')],
+        indicatorColor: AppColors.tabBarLabelPrimary,
+        indicatorWeight: 3,
+      ),
     );
   }
 

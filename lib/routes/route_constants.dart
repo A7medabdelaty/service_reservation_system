@@ -9,4 +9,8 @@ class RouteConstants {
   static const String booking = '/booking';
   static const String profile = '/profile';
   static const String appointments = '/appointments';
+  static const String allDoctors = '/doctors';
+  static const String doctorDetails = '/doctor-details';
+  static const String bookAppointment = '/book-appointment';
+  static const String myAppointments = '/my-appointments';
 }

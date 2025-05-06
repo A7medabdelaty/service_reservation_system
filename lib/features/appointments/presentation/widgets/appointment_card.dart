@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:service_reservation_system/core/constants/asset_paths.dart';
-import 'package:service_reservation_system/core/widgets/app_image.dart';
+import 'package:service_reservation_system/core/theme/app_colors.dart';
 
 class AppointmentCard extends StatelessWidget {
   final String doctorName;
@@ -12,6 +12,7 @@ class AppointmentCard extends StatelessWidget {
   final VoidCallback? onReschedule;
   final VoidCallback? onCancel;
   final bool showActions;
+  final int? daysAgo;
 
   const AppointmentCard({
     super.key,
@@ -24,6 +25,7 @@ class AppointmentCard extends StatelessWidget {
     this.onReschedule,
     this.onCancel,
     this.showActions = true,
+    this.daysAgo,
   });
 
   @override
@@ -34,15 +36,26 @@ class AppointmentCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              child: AppImage(
-                path: imageUrl,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
+          if (daysAgo != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Text(
+                '$daysAgo Days Ago',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+            ),
+          ListTile(
+            contentPadding: const EdgeInsets.all(8),
+            leading: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(imageUrl)),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              width: 80,
+              height: 80,
             ),
             title: Text(
               doctorName,
@@ -64,26 +77,53 @@ class AppointmentCard extends StatelessWidget {
             ),
           ),
           if (showActions) ...[
-            const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextButton(
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     onPressed: onReschedule,
-                    style: TextButton.styleFrom(foregroundColor: Colors.green),
+                    color: AppColors.successLight,
+                    textColor: Colors.white,
                     child: const Text('Reschedule'),
                   ),
-                  TextButton(
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     onPressed: onCancel,
-                    style: TextButton.styleFrom(foregroundColor: Colors.red),
+                    color: AppColors.errorLight,
+                    textColor: Colors.white,
                     child: const Text('Cancel'),
                   ),
                 ],
               ),
             ),
           ],
+          if (!showActions)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () {
+                  // TODO :: Handle add review
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.successLight,
+                  minimumSize: const Size(double.infinity, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Add A Review',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -91,10 +131,19 @@ class AppointmentCard extends StatelessWidget {
 
   Widget _buildInfoRow(IconData icon, String text) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 16, color: Colors.grey),
         const SizedBox(width: 8),
-        Text(text, style: const TextStyle(color: Colors.grey)),
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(color: Colors.grey),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            softWrap: true,
+          ),
+        ),
       ],
     );
   }

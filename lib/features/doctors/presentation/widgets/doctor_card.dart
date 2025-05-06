@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_reservation_system/core/widgets/app_image.dart';
+import 'package:service_reservation_system/core/extensions/build_context_extension.dart';
 
 class DoctorCard extends StatelessWidget {
   final String name;
@@ -39,14 +39,13 @@ class DoctorCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 40,
-                child: AppImage(
-                  path: imageUrl,
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage(imageUrl)),
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                width: context.wp(0.25),
+                height: context.hp(0.12),
               ),
               const SizedBox(width: 12),
               Expanded(

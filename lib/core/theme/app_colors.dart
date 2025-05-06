@@ -24,14 +24,18 @@ class AppColors {
   static const Color accentDark = Color(0xFF64B5FF);
 
   // Error Colors
-  static const Color errorLight = Color(0xFFDC3545);
+  static const Color errorLight = Color(0xFFCF403F);
   static const Color errorDark = Color(0xFFEF5350);
 
   // Success Colors
-  static const Color successLight = Color(0xFF28A745);
+  static const Color successLight = Color(0xFF288247);
   static const Color successDark = Color(0xFF66BB6A);
 
   // Warning Colors
   static const Color warningLight = Color(0xFFFFC107);
   static const Color warningDark = Color(0xFFFFB74D);
+
+  // TabBar Colors
+  static const tabBarLabelPrimary = Color(0xff1E5A84);
+  static const tabBarLabelSecondary = Color(0xff2A7FBA);
 }

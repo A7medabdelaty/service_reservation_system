@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:service_reservation_system/features/appointments/presentation/pages/appointments_page.dart';
+import 'package:service_reservation_system/features/appointments/presentation/pages/booking_page.dart';
 import 'package:service_reservation_system/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:service_reservation_system/features/doctors/presentation/pages/all_doctors_page.dart';
+import 'package:service_reservation_system/features/doctors/presentation/pages/doctor_details_page.dart';
 
 import '../core/presentation/pages/error_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
-import '../features/specialists/presentation/pages/specialist_detail_page.dart';
-import '../features/specialists/presentation/pages/specialists_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
 import 'route_constants.dart';
 
@@ -40,15 +42,30 @@ class AppRouter {
         page = const ResetPasswordPage();
         break;
 
-      case RouteConstants.specialists:
-        page = const SpecialistsPage();
+      case RouteConstants.allDoctors:
+        page = const AllDoctorsPage();
         break;
 
-      case RouteConstants.specialistDetail:
-        if (args is! Map<String, dynamic>) {
-          throw ArgumentError('Specialist detail requires an ID parameter');
+      case RouteConstants.doctorDetails:
+        page = const DoctorDetailsPage();
+        break;
+
+      case RouteConstants.bookAppointment:
+        if (args is Map<String, dynamic>) {
+          page = BookingPage(
+            doctorId: args['doctorId'] as String,
+            doctorName: args['doctorName'] as String,
+            specialty: args['specialty'] as String,
+            location: args['location'] as String,
+            consultingFee: args['consultingFee'] as double,
+          );
+        } else {
+          page = const ErrorPage(message: 'Invalid booking arguments');
         }
-        page = SpecialistDetailPage(specialistId: args['id'] as String);
+        break;
+
+      case RouteConstants.myAppointments:
+        page = const MyAppointmentsPage();
         break;
 
       default:

@@ -5,6 +5,19 @@ import 'app_colors.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
+      tabBarTheme: TabBarTheme(
+        labelColor: AppColors.tabBarLabelPrimary,
+        unselectedLabelColor: AppColors.tabBarLabelSecondary,
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        unselectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerColor: Colors.transparent,
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        splashFactory: NoSplash.splashFactory,
+      ),
       useMaterial3: true,
       colorScheme: ColorScheme.light(
         primary: AppColors.primaryLight,
@@ -31,6 +44,19 @@ class AppTheme {
 
   static ThemeData get darkTheme {
     return ThemeData(
+      tabBarTheme: TabBarTheme(
+        labelColor: AppColors.textPrimaryDark,
+        unselectedLabelColor: AppColors.textSecondaryDark,
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        unselectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerColor: Colors.transparent,
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        splashFactory: NoSplash.splashFactory,
+      ),
       useMaterial3: true,
       colorScheme: ColorScheme.dark(
         primary: AppColors.primaryDark,
