@@ -23,8 +23,8 @@ class HomeBottomNav extends StatelessWidget {
               label: 'Appointments',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
+              icon: Icon(Icons.people),
+              label: 'All Doctors',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),

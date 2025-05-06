@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:service_reservation_system/core/widgets/responsive_layout.dart';
+import 'package:service_reservation_system/features/doctors/presentation/pages/all_doctors_page.dart';
 import 'package:service_reservation_system/features/home/presentation/widgets/doctors_list.dart';
 import 'package:service_reservation_system/features/home/presentation/widgets/home_banner.dart';
 import 'package:service_reservation_system/features/home/presentation/widgets/home_header.dart';
@@ -30,7 +31,7 @@ class HomePage extends StatelessWidget {
                   desktop: _HomeDesktopView(),
                 ),
                 const MyAppointmentsPage(),
-                const Center(child: Text('Favorites Page')), // Placeholder
+                const AllDoctorsPage(),
                 const Center(child: Text('Profile Page')), // Placeholder
               ],
             ),
